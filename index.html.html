@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Deepflourish AI — Premium AI Video Production Studio</title>
+<meta name="description" content="Deepflourish AI is a premium AI-powered video production studio crafting cinematic SaaS explainers, UGC ads, brand launches, and commercial content."/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Chakra+Petch:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#020409;--bg2:#06090f;--surface:rgba(255,255,255,0.03);
+  --border:rgba(255,255,255,0.07);--cyan:#00e5ff;--purple:#7c3aed;
+  --gold:#f59e0b;--text:#e8eaf0;--muted:#6b7a99;
+  --glow-cyan:rgba(0,229,255,0.12);--glow-purple:rgba(124,58,237,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:2px;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 4rem;
+  background:rgba(2,4,9,0.75);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);transition:background .3s;
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:.14em;
+  color:var(--cyan);text-decoration:none;
+  text-shadow:0 0 24px rgba(0,229,255,.45);
+}
+.nav-logo span{color:rgba(232,234,240,.7);}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{
+  text-decoration:none;color:var(--muted);
+  font-family:'Chakra Petch',sans-serif;
+  font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  transition:color .25s;position:relative;
+}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--cyan);transition:width .3s;}
+.nav-links a:hover{color:var(--cyan);}
+.nav-links a:hover::after{width:100%;}
+.nav-ctas{display:flex;gap:.6rem;}
+.nbtn{
+  padding:.42rem 1.1rem;border-radius:5px;
+  font-family:'Chakra Petch',sans-serif;font-size:.7rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .25s;
+}
+.nbtn-tg{background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.3);color:#4ab3f4;}
+.nbtn-tg:hover{background:rgba(0,136,204,.2);box-shadow:0 0 18px rgba(0,136,204,.3);}
+.nbtn-wa{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25d366;}
+.nbtn-wa:hover{background:rgba(37,211,102,.2);box-shadow:0 0 18px rgba(37,211,102,.3);}
+
+/* FLOATING BTNS */
+.floats{position:fixed;bottom:2rem;right:1.8rem;z-index:400;display:flex;flex-direction:column;gap:.7rem;}
+.fbtn{
+  width:50px;height:50px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.35rem;text-decoration:none;transition:all .3s;
+  box-shadow:0 4px 20px rgba(0,0,0,.45);
+}
+.fbtn-tg{background:linear-gradient(135deg,#0088cc,#006aff);}
+.fbtn-wa{background:linear-gradient(135deg,#25d366,#128c7e);}
+.fbtn:hover{transform:translateY(-4px) scale(1.1);}
+.fbtn-tg:hover{box-shadow:0 8px 28px rgba(0,136,204,.55);}
+.fbtn-wa:hover{box-shadow:0 8px 28px rgba(37,211,102,.55);}
+
+/* HERO */
+.hero{
+  min-height:100vh;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;text-align:center;padding:9rem 2rem 5rem;
+}
+.hero-mesh{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 55% at 20% 40%,rgba(124,58,237,.2) 0%,transparent 60%),
+    radial-gradient(ellipse 65% 45% at 80% 60%,rgba(0,229,255,.13) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 100%,rgba(245,158,11,.07) 0%,transparent 50%);
+}
+.hero-lines{
+  position:absolute;inset:0;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,.012) 2px,rgba(0,229,255,.012) 4px);
+  animation:linesMove 14s linear infinite;
+}
+@keyframes linesMove{from{transform:translateY(0);}to{transform:translateY(100px);}}
+canvas#particles{position:absolute;inset:0;z-index:0;pointer-events:none;}
+
+.hero-inner{position:relative;z-index:2;max-width:950px;margin:0 auto;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.6rem;
+  border:1px solid rgba(0,229,255,.22);background:rgba(0,229,255,.05);
+  padding:.38rem 1.2rem;border-radius:100px;
+  font-family:'Chakra Petch',sans-serif;font-size:.68rem;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);
+  margin-bottom:2.2rem;animation:fadeUp .8s .1s ease both;
+}
+.dot-live{width:6px;height:6px;border-radius:50%;background:#00ff88;animation:pls 1.6s infinite;}
+@keyframes pls{0%,100%{opacity:1;box-shadow:0 0 8px #00ff88;}50%{opacity:.25;box-shadow:none;}}
+
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.8rem,9.5vw,9.5rem);
+  line-height:.92;letter-spacing:.025em;margin-bottom:1.6rem;
+  animation:fadeUp .9s .25s ease both;
+}
+.hero h1 .gl{
+  display:block;
+  background:linear-gradient(90deg,var(--cyan) 0%,#a78bfa 50%,var(--cyan) 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmerText 4s linear infinite;
+  filter:drop-shadow(0 0 32px rgba(0,229,255,.35));
+}
+@keyframes shimmerText{to{background-position:200% center;}}
+.hero h1 .wh{display:block;color:var(--text);}
+.hero h1 .dm{display:block;color:rgba(232,234,240,.28);}
+
+.hero-sub{
+  font-size:clamp(.92rem,1.8vw,1.15rem);color:var(--muted);
+  max-width:620px;margin:0 auto 2.8rem;
+  font-weight:300;line-height:1.85;
+  animation:fadeUp .9s .42s ease both;
+}
+.hero-sub strong{color:var(--text);font-weight:500;}
+
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .9s .56s ease both;}
+.hbtn{
+  padding:.9rem 2.2rem;border-radius:6px;
+  font-family:'Chakra Petch',sans-serif;font-size:.82rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
+  transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;
+}
+.hbtn-c{background:linear-gradient(135deg,rgba(0,229,255,.14),rgba(0,229,255,.04));border:1px solid rgba(0,229,255,.38);color:var(--cyan);}
+.hbtn-c:hover{background:rgba(0,229,255,.22);box-shadow:0 0 32px rgba(0,229,255,.28);transform:translateY(-2px);}
+.hbtn-w{background:linear-gradient(135deg,rgba(37,211,102,.14),rgba(37,211,102,.04));border:1px solid rgba(37,211,102,.38);color:#25d366;}
+.hbtn-w:hover{background:rgba(37,211,102,.22);box-shadow:0 0 32px rgba(37,211,102,.28);transform:translateY(-2px);}
+
+.hero-stats{display:flex;gap:3.5rem;justify-content:center;margin-top:4.5rem;animation:fadeUp .9s .7s ease both;}
+.hs-num{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.06em;color:var(--cyan);text-shadow:0 0 22px rgba(0,229,255,.4);line-height:1;}
+.hs-lbl{font-size:.68rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-family:'Chakra Petch',sans-serif;margin-top:.25rem;}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  color:var(--muted);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  font-family:'Chakra Petch',sans-serif;animation:fadeIn 2s 1.8s ease both;
+}
+.scl{width:1px;height:38px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scPulse 2s infinite;}
+@keyframes scPulse{0%,100%{opacity:.25;}50%{opacity:1;}}
+
+/* SECTION COMMONS */
+section{padding:6.5rem 4rem;position:relative;}
+.slbl{
+  font-family:'Chakra Petch',sans-serif;font-size:.68rem;font-weight:700;
+  letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);
+  margin-bottom:.65rem;display:flex;align-items:center;gap:.7rem;
+}
+.slbl::before{content:'//';opacity:.45;font-size:.65rem;}
+.stitle{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.2rem,4.5vw,3.8rem);
+  letter-spacing:.04em;line-height:.96;margin-bottom:.9rem;
+}
+.ssub{font-size:.95rem;color:var(--muted);max-width:500px;line-height:1.85;font-weight:300;}
+.divider{height:1px;margin:0 4rem;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+
+/* ABOUT */
+#about{background:var(--bg2);}
+.about-wrap{display:grid;grid-template-columns:1fr 1.25fr;gap:5rem;align-items:center;}
+.about-visual{position:relative;}
+.a-box{
+  aspect-ratio:1;border-radius:14px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(0,229,255,.06));
+  border:1px solid rgba(0,229,255,.1);
+  display:flex;align-items:center;justify-content:center;font-size:7rem;
+}
+.a-box::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%,rgba(0,229,255,.07),transparent 68%);
+}
+.a-float{
+  position:absolute;bottom:-1.4rem;right:-1.4rem;
+  background:rgba(6,9,15,.92);border:1px solid rgba(0,229,255,.15);
+  border-radius:10px;padding:1.1rem 1.4rem;backdrop-filter:blur(12px);
+}
+.af-n{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:var(--cyan);text-shadow:0 0 14px rgba(0,229,255,.4);}
+.af-l{font-size:.68rem;color:var(--muted);font-family:'Chakra Petch',sans-serif;letter-spacing:.08em;}
+.about-text p{color:var(--muted);margin-bottom:1.1rem;font-size:.94rem;font-weight:300;line-height:1.88;}
+.about-text p:first-of-type{font-family:'Chakra Petch',sans-serif;font-size:1.18rem;color:var(--text);font-weight:400;line-height:1.6;}
+.pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem;}
+.pill{
+  padding:.32rem .88rem;border-radius:100px;border:1px solid var(--border);
+  font-size:.7rem;color:var(--muted);font-family:'Chakra Petch',sans-serif;letter-spacing:.06em;
+  background:var(--surface);transition:all .25s;
+}
+.pill:hover{border-color:rgba(0,229,255,.3);color:var(--cyan);}
+
+/* SERVICES */
+#services{
+  background:var(--bg);
+  background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(124,58,237,.07) 0%,transparent 60%);
+}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:3rem;}
+.svc-card{
+  padding:1.8rem 1.5rem;border-radius:10px;
+  border:1px solid var(--border);
+  background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
+  position:relative;overflow:hidden;transition:all .35s;cursor:default;
+}
+.svc-card::before{content:'';position:absolute;inset:0;background:var(--glow-cyan);opacity:0;transition:opacity .35s;border-radius:10px;}
+.svc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0;transition:opacity .35s;}
+.svc-card:hover{border-color:rgba(0,229,255,.22);transform:translateY(-6px);box-shadow:0 22px 55px rgba(0,0,0,.4),0 0 30px rgba(0,229,255,.05);}
+.svc-card:hover::before,.svc-card:hover::after{opacity:1;}
+.svc-ico{font-size:2.1rem;margin-bottom:1.2rem;display:block;}
+.svc-ttl{font-family:'Chakra Petch',sans-serif;font-size:.93rem;font-weight:600;margin-bottom:.6rem;color:var(--text);}
+.svc-dsc{font-size:.78rem;color:var(--muted);line-height:1.72;}
+.svc-badge{
+  display:inline-block;margin-top:1rem;
+  font-family:'Chakra Petch',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--cyan);padding:.22rem .7rem;border:1px solid rgba(0,229,255,.18);border-radius:100px;
+}
+
+/* PORTFOLIO */
+#portfolio{
+  background:var(--bg2);
+  background-image:radial-gradient(ellipse 60% 40% at 80% 50%,rgba(0,229,255,.04) 0%,transparent 60%);
+}
+.filter-bar{display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.fb{
+  padding:.38rem 1.05rem;border-radius:100px;border:1px solid var(--border);
+  background:transparent;color:var(--muted);
+  font-family:'Chakra Petch',sans-serif;font-size:.7rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .25s;
+}
+.fb:hover,.fb.active{border-color:var(--cyan);background:rgba(0,229,255,.08);color:var(--cyan);}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;}
+.vcard{
+  border-radius:10px;overflow:hidden;border:1px solid var(--border);
+  background:var(--bg);transition:all .32s;cursor:pointer;position:relative;
+}
+.vcard:hover{border-color:rgba(0,229,255,.28);transform:translateY(-5px);box-shadow:0 22px 55px rgba(0,0,0,.5),0 0 22px rgba(0,229,255,.07);}
+.vcard.hidden{display:none;}
+.vthumb{
+  position:relative;aspect-ratio:16/9;overflow:hidden;
+  background:linear-gradient(135deg,#060c18,#03060e);
+}
+/* Drive thumbnail image */
+.vthumb img{
+  width:100%;height:100%;object-fit:cover;
+  opacity:.75;transition:opacity .35s, transform .35s;display:block;
+}
+.vcard:hover .vthumb img{opacity:1;transform:scale(1.04);}
+/* Fallback gradient shown when img fails */
+.vthumb-fallback{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:3rem;z-index:0;
+}
+.voverlay{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to top,rgba(2,4,9,.96) 0%,rgba(2,4,9,.3) 45%,transparent 100%);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s;
+}
+.vcard:hover .voverlay{background:linear-gradient(to top,rgba(2,4,9,.82) 0%,rgba(0,229,255,.04) 45%,transparent 100%);}
+.vplay{
+  width:54px;height:54px;border-radius:50%;
+  background:rgba(0,229,255,.14);border:2px solid rgba(0,229,255,.5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;transform:scale(.75);opacity:0;transition:all .3s;
+}
+.vcard:hover .vplay{transform:scale(1);opacity:1;}
+.vmeta{padding:1rem 1.1rem 1.15rem;}
+.vcat{font-family:'Chakra Petch',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem;}
+.cat-s{color:var(--cyan);}
+.cat-c{color:#a78bfa;}
+.cat-u{color:var(--gold);}
+.cat-p{color:#f472b6;}
+.cat-e{color:#34d399;}
+.cat-m{color:#818cf8;}
+.cat-b{color:#fb923c;}
+.vtitle{font-family:'Chakra Petch',sans-serif;font-size:.87rem;font-weight:600;color:var(--text);line-height:1.3;}
+
+/* TESTIMONIALS */
+#testimonials{
+  background:var(--bg);
+  background-image:radial-gradient(ellipse 60% 50% at 20% 50%,rgba(124,58,237,.07) 0%,transparent 60%);
+}
+.tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem;}
+.tcard{
+  padding:2rem;border-radius:12px;border:1px solid var(--border);
+  background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
+  position:relative;overflow:hidden;transition:all .35s;
+}
+.tcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,.5),transparent);}
+.tcard:hover{border-color:rgba(124,58,237,.28);box-shadow:0 16px 44px rgba(0,0,0,.3),0 0 28px rgba(124,58,237,.06);}
+.tq{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:var(--purple);line-height:.5;margin-bottom:1.1rem;opacity:.55;}
+.tstars{color:var(--gold);font-size:.82rem;margin-bottom:.6rem;}
+.ttxt{font-size:.89rem;color:rgba(232,234,240,.68);line-height:1.82;font-style:italic;margin-bottom:1.5rem;font-weight:300;}
+.tauthor{display:flex;align-items:center;gap:.85rem;}
+.tavatar{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:#fff;
+}
+.tname{font-weight:600;font-size:.84rem;font-family:'Chakra Petch',sans-serif;}
+.trole{font-size:.7rem;color:var(--muted);}
+
+/* SKILLS */
+#skills{
+  background:var(--bg2);
+  background-image:radial-gradient(ellipse 70% 40% at 50% 100%,rgba(0,229,255,.05) 0%,transparent 55%);
+}
+.skgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem 5rem;margin-top:3rem;}
+.ski .sk-head{display:flex;justify-content:space-between;margin-bottom:.6rem;}
+.sk-name{font-family:'Chakra Petch',sans-serif;font-size:.84rem;font-weight:600;color:var(--text);}
+.sk-pct{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--cyan);letter-spacing:.05em;}
+.sk-track{height:2.5px;background:rgba(255,255,255,.055);border-radius:100px;overflow:hidden;}
+.sk-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--cyan),var(--purple));box-shadow:0 0 10px rgba(0,229,255,.35);width:0;transition:width 1.3s cubic-bezier(.4,0,.2,1);}
+
+/* PROCESS */
+#process{
+  background:var(--bg);
+  background-image:radial-gradient(ellipse 60% 50% at 65% 30%,rgba(245,158,11,.05) 0%,transparent 60%);
+}
+.proc-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:0;margin-top:3.5rem;position:relative;
+}
+.proc-grid::before{
+  content:'';position:absolute;top:1.6rem;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,229,255,.25),rgba(124,58,237,.25),rgba(245,158,11,.2),transparent);
+}
+.pstep{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 .4rem;}
+.pnum{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--bg2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--cyan);
+  margin-bottom:1.1rem;position:relative;z-index:1;transition:all .3s;
+}
+.pstep:hover .pnum{border-color:var(--cyan);box-shadow:0 0 22px rgba(0,229,255,.3);transform:scale(1.1);}
+.pico{font-size:1.3rem;margin-bottom:.6rem;}
+.pttl{font-family:'Chakra Petch',sans-serif;font-size:.73rem;font-weight:600;color:var(--text);margin-bottom:.3rem;letter-spacing:.04em;}
+.pdsc{font-size:.66rem;color:var(--muted);line-height:1.55;}
+
+/* CONTACT */
+#contact{
+  background:var(--bg2);text-align:center;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 50% 50%,rgba(124,58,237,.1) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 40% at 50% 100%,rgba(0,229,255,.07) 0%,transparent 55%);
+}
+.cinner{max-width:620px;margin:0 auto;}
+.cttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,6vw,5.5rem);letter-spacing:.04em;line-height:.92;margin-bottom:1.5rem;}
+.cttl span{background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.csub{font-size:.97rem;color:var(--muted);font-weight:300;line-height:1.82;margin-bottom:3rem;}
+.cbtns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;}
+.cbtn{
+  display:inline-flex;align-items:center;gap:.8rem;
+  padding:1rem 2.6rem;border-radius:8px;
+  font-family:'Chakra Petch',sans-serif;font-size:.88rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .3s;
+}
+.cbtn-tg{background:linear-gradient(135deg,rgba(0,136,204,.18),rgba(0,106,255,.08));border:1px solid rgba(0,136,204,.38);color:#4ab3f4;}
+.cbtn-tg:hover{background:linear-gradient(135deg,rgba(0,136,204,.28),rgba(0,106,255,.18));box-shadow:0 0 42px rgba(0,136,204,.28);transform:translateY(-3px);}
+.cbtn-wa{background:linear-gradient(135deg,rgba(37,211,102,.18),rgba(18,140,126,.08));border:1px solid rgba(37,211,102,.38);color:#25d366;}
+.cbtn-wa:hover{background:linear-gradient(135deg,rgba(37,211,102,.28),rgba(18,140,126,.18));box-shadow:0 0 42px rgba(37,211,102,.28);transform:translateY(-3px);}
+.cico{font-size:1.3rem;}
+
+/* FOOTER */
+footer{
+  background:var(--bg);border-top:1px solid var(--border);
+  padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.flogo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.13em;color:var(--cyan);text-shadow:0 0 14px rgba(0,229,255,.3);}
+.fcopy{font-size:.7rem;color:var(--muted);font-family:'Chakra Petch',sans-serif;letter-spacing:.06em;}
+.flinks{display:flex;gap:1.6rem;}
+.flinks a{font-size:.7rem;color:var(--muted);text-decoration:none;font-family:'Chakra Petch',sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:color .25s;}
+.flinks a:hover{color:var(--cyan);}
+
+/* MODAL */
+.modal-bg{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,.97);backdrop-filter:blur(18px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;padding:1.2rem;
+}
+.modal-bg.open{opacity:1;pointer-events:all;}
+.modal-wrap{width:100%;max-width:980px;position:relative;transform:scale(.94);transition:transform .3s;}
+.modal-bg.open .modal-wrap{transform:scale(1);}
+.modal-close-btn{
+  position:absolute;top:-2.8rem;right:0;background:none;border:none;
+  color:var(--muted);font-size:.78rem;font-family:'Chakra Petch',sans-serif;
+  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+  transition:color .2s;display:flex;align-items:center;gap:.4rem;
+}
+.modal-close-btn:hover{color:var(--cyan);}
+.modal-frame{
+  width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;
+  border:1px solid rgba(0,229,255,.15);background:#000;
+  box-shadow:0 0 70px rgba(0,229,255,.1);
+}
+.modal-frame iframe{width:100%;height:100%;border:none;display:block;}
+.modal-lbl{margin-top:.9rem;text-align:center;font-family:'Chakra Petch',sans-serif;font-size:.82rem;color:var(--muted);letter-spacing:.07em;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.svc-grid{grid-template-columns:repeat(2,1fr);}.vgrid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}.nav-links{display:none;}
+  section{padding:4.5rem 1.5rem;}.divider{margin:0 1.5rem;}
+  footer{padding:1.5rem;flex-direction:column;text-align:center;}
+  .flinks{justify-content:center;}
+  .about-wrap{grid-template-columns:1fr;}.about-visual{display:none;}
+  .svc-grid{grid-template-columns:1fr;}
+  .vgrid{grid-template-columns:1fr;}
+  .tgrid{grid-template-columns:1fr;}
+  .skgrid{grid-template-columns:1fr;}
+  .proc-grid{grid-template-columns:repeat(4,1fr);gap:1.5rem 0;}
+  .proc-grid::before{display:none;}
+  .hero-stats{gap:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- FLOATING CTAs -->
+<div class="floats">
+  <a href="https://t.me/DeepflourishAI" target="_blank" class="fbtn fbtn-tg" title="Telegram">✈</a>
+  <a href="https://wa.me/12566881194" target="_blank" class="fbtn fbtn-wa" title="WhatsApp">💬</a>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal-wrap">
+    <button class="modal-close-btn" onclick="closeModal()">✕ &nbsp;Close</button>
+    <div class="modal-frame" id="modalFrame"></div>
+    <div class="modal-lbl" id="modalLbl"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="topnav">
+  <a href="#home" class="nav-logo">Deepflourish <span>AI</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="https://t.me/DeepflourishAI" target="_blank" class="nbtn nbtn-tg">✈ Telegram</a>
+    <a href="https://wa.me/12566881194" target="_blank" class="nbtn nbtn-wa">💬 WhatsApp</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-mesh"></div>
+  <div class="hero-lines"></div>
+  <canvas id="particles"></canvas>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="dot-live"></span>Premium AI Production Studio &nbsp;·&nbsp; Open for Projects</div>
+    <h1>
+      <span class="wh">WHERE</span>
+      <span class="gl">AI MEETS</span>
+      <span class="dm">CINEMA</span>
+    </h1>
+    <p class="hero-sub">
+      <strong>Deepflourish AI</strong> is a next-generation creative studio producing cinematic AI video content — from high-converting SaaS explainers to breathtaking commercial campaigns.
+    </p>
+    <div class="hero-ctas">
+      <a href="#portfolio" class="hbtn hbtn-c">▶ &nbsp;Watch Our Work</a>
+      <a href="https://wa.me/12566881194" target="_blank" class="hbtn hbtn-w">💬 &nbsp;WhatsApp Us</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hs-num">120+</div><div class="hs-lbl">Videos Produced</div></div>
+      <div><div class="hs-num">50+</div><div class="hs-lbl">Brands Served</div></div>
+      <div><div class="hs-num">5M+</div><div class="hs-lbl">Total Views</div></div>
+      <div><div class="hs-num">98%</div><div class="hs-lbl">Client Satisfaction</div></div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span class="scl"></span>Scroll</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-visual reveal">
+      <div class="a-box">🎬</div>
+      <div class="a-float">
+        <div class="af-n">3Y+</div>
+        <div class="af-l">AI Filmmaking</div>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="slbl">About Us</div>
+      <div class="stitle">A New Era of<br>Visual Storytelling</div>
+      <div class="about-text">
+        <p>Deepflourish AI is a premium AI-powered video production studio built for the modern era — where speed, creativity, and technology converge to create extraordinary content.</p>
+        <p>We operate at the cutting edge of generative AI, fusing cinematic direction, precision prompt engineering, and commercial storytelling to produce content that doesn't just look stunning — it converts, engages, and dominates every platform.</p>
+        <p>From SaaS explainer videos to full-scale commercial campaigns, every frame is crafted with the intentionality of a film director and the strategic mindset of a performance marketer.</p>
+      </div>
+      <div class="pills">
+        <span class="pill">Prompt Engineering</span><span class="pill">AI Filmmaking</span>
+        <span class="pill">Commercial Direction</span><span class="pill">Cinematic Storytelling</span>
+        <span class="pill">Brand Strategy</span><span class="pill">Performance Ads</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div style="text-align:center" class="reveal">
+    <div class="slbl" style="justify-content:center">What We Create</div>
+    <div class="stitle">Our Services</div>
+    <p class="ssub" style="margin:0 auto;text-align:center">Eight elite disciplines. One cinematic vision.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card reveal d1"><span class="svc-ico">🎯</span><div class="svc-ttl">SaaS Explainer Videos</div><p class="svc-dsc">Transform complex software into crystal-clear visual stories that drive sign-ups and reduce churn.</p><span class="svc-badge">Most Popular</span></div>
+    <div class="svc-card reveal d2"><span class="svc-ico">📱</span><div class="svc-ttl">AI UGC Ads</div><p class="svc-dsc">Authentic AI-powered user-generated content engineered to stop the scroll on TikTok, Reels, and Facebook.</p><span class="svc-badge">High ROI</span></div>
+    <div class="svc-card reveal d3"><span class="svc-ico">⚡</span><div class="svc-ttl">Product Promo Videos</div><p class="svc-dsc">Cinematic product showcases that highlight features, spark desire, and drive purchase decisions.</p><span class="svc-badge">Premium</span></div>
+    <div class="svc-card reveal d4"><span class="svc-ico">🎬</span><div class="svc-ttl">Cinematic Commercials</div><p class="svc-dsc">Hollywood-quality AI commercial production. Breathtaking visuals and emotional storytelling that builds iconic brands.</p><span class="svc-badge">Flagship</span></div>
+    <div class="svc-card reveal d1"><span class="svc-ico">🛍️</span><div class="svc-ttl">Ecommerce Ads</div><p class="svc-dsc">Performance-driven video ads designed to convert browsers into buyers, optimised for Facebook, TikTok & Google.</p><span class="svc-badge">Performance</span></div>
+    <div class="svc-card reveal d2"><span class="svc-ico">🎵</span><div class="svc-ttl">AI Music Videos</div><p class="svc-dsc">Visually stunning AI-generated music videos that match the energy and emotion of your track with cinematic art direction.</p><span class="svc-badge">Creative</span></div>
+    <div class="svc-card reveal d3"><span class="svc-ico">🚀</span><div class="svc-ttl">Startup Branding</div><p class="svc-dsc">Launch videos and brand films that tell your startup's story with confidence, vision, and investor-grade quality.</p><span class="svc-badge">Launch Ready</span></div>
+    <div class="svc-card reveal d4"><span class="svc-ico">🧠</span><div class="svc-ttl">AI Prompt Engineering</div><p class="svc-dsc">Advanced prompt architecture and AI workflow design to produce consistent, on-brand visual outputs at scale.</p><span class="svc-badge">Technical</span></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="reveal">
+    <div class="slbl">Portfolio</div>
+    <div class="stitle">Our Work Speaks</div>
+    <p class="ssub">15 real AI-produced videos. Click any to watch.</p>
+  </div>
+  <div class="filter-bar reveal" style="margin-top:2rem">
+    <button class="fb active" data-cat="all">All Work</button>
+    <button class="fb" data-cat="s">SaaS Ads</button>
+    <button class="fb" data-cat="c">AI Commercials</button>
+    <button class="fb" data-cat="u">UGC Ads</button>
+    <button class="fb" data-cat="p">Product Ads</button>
+    <button class="fb" data-cat="e">Ecommerce</button>
+    <button class="fb" data-cat="m">Music Videos</button>
+    <button class="fb" data-cat="b">Brand Launches</button>
+  </div>
+  <div class="vgrid" id="vgrid">
+
+    <!-- VID 01 — SaaS -->
+    <div class="vcard reveal" data-cat="s" onclick="playDrive('1wBekhhum8u-OwIoxfBIDVFJAUxWIzp__','Product Feature Spotlight')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#060f20,#030810)">🤖</div>
+        <img src="https://drive.google.com/thumbnail?id=1wBekhhum8u-OwIoxfBIDVFJAUxWIzp__&sz=w640" alt="SaaS Ad" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-s">SaaS Ads</div><div class="vtitle">Product Feature Spotlight</div></div>
+    </div>
+
+    <!-- VID 02 — Commercial -->
+    <div class="vcard reveal d1" data-cat="c" onclick="playDrive('18NDJC6hmYCWcPQuGycMffrW8oFn0vpK2','Brand Identity Film')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#100820,#080412)">🎬</div>
+        <img src="https://drive.google.com/thumbnail?id=18NDJC6hmYCWcPQuGycMffrW8oFn0vpK2&sz=w640" alt="AI Commercial" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-c">AI Commercials</div><div class="vtitle">Brand Identity Film</div></div>
+    </div>
+
+    <!-- VID 03 — UGC -->
+    <div class="vcard reveal d2" data-cat="u" onclick="playDrive('1cv7U6qCE18cCOYZF3qxF9Qt4hliBThcx','Social Proof Campaign')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#1a1002,#0e0901)">📱</div>
+        <img src="https://drive.google.com/thumbnail?id=1cv7U6qCE18cCOYZF3qxF9Qt4hliBThcx&sz=w640" alt="UGC Ad" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-u">UGC Ads</div><div class="vtitle">Social Proof Campaign</div></div>
+    </div>
+
+    <!-- VID 04 — Product -->
+    <div class="vcard reveal" data-cat="p" onclick="playDrive('1TUywrr6oSHs7-SkQ_RMUOcGVRR2iUESM','Ecommerce Launch Ad')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#180a18,#0d0510)">⚡</div>
+        <img src="https://drive.google.com/thumbnail?id=1TUywrr6oSHs7-SkQ_RMUOcGVRR2iUESM&sz=w640" alt="Product Ad" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-p">Product Ads</div><div class="vtitle">Ecommerce Launch Ad</div></div>
+    </div>
+
+    <!-- VID 05 — Ecommerce -->
+    <div class="vcard reveal d1" data-cat="e" onclick="playDrive('1bZfoALTc5IABrs4-Jy5UK8g9iigTndhs','Lifestyle Product Showcase')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#021810,#010c08)">🛍️</div>
+        <img src="https://drive.google.com/thumbnail?id=1bZfoALTc5IABrs4-Jy5UK8g9iigTndhs&sz=w640" alt="Ecommerce" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-e">Ecommerce</div><div class="vtitle">Lifestyle Product Showcase</div></div>
+    </div>
+
+    <!-- VID 06 — Music -->
+    <div class="vcard reveal d2" data-cat="m" onclick="playDrive('1vTudImCbF1Xq1E9O31fOA8s5e0fQZhFg','Cinematic Visual Experience')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#0a0820,#050412)">🎵</div>
+        <img src="https://drive.google.com/thumbnail?id=1vTudImCbF1Xq1E9O31fOA8s5e0fQZhFg&sz=w640" alt="Music Video" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-m">Music Videos</div><div class="vtitle">Cinematic Visual Experience</div></div>
+    </div>
+
+    <!-- VID 07 — Brand -->
+    <div class="vcard reveal" data-cat="b" onclick="playDrive('1Y6Rv9C0KpxfY1UL3_Yw6vGc8sJQN9f4F','Startup Vision Film')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#180a02,#0e0501)">🚀</div>
+        <img src="https://drive.google.com/thumbnail?id=1Y6Rv9C0KpxfY1UL3_Yw6vGc8sJQN9f4F&sz=w640" alt="Brand Launch" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-b">Brand Launches</div><div class="vtitle">Startup Vision Film</div></div>
+    </div>
+
+    <!-- VID 08 — SaaS -->
+    <div class="vcard reveal d1" data-cat="s" onclick="playDrive('19CekDRxlj8BQ74-__Y6D5tr09eulfaDV','Onboarding Flow Video')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#030f1e,#010810)">🎯</div>
+        <img src="https://drive.google.com/thumbnail?id=19CekDRxlj8BQ74-__Y6D5tr09eulfaDV&sz=w640" alt="SaaS" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-s">SaaS Ads</div><div class="vtitle">Onboarding Flow Video</div></div>
+    </div>
+
+    <!-- VID 09 — Commercial -->
+    <div class="vcard reveal d2" data-cat="c" onclick="playDrive('1Epqr7B5GYDbPvI5KdKkzyIUhLlTwygfG','Luxury Brand Cinematic')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#0e0820,#060412)">🌟</div>
+        <img src="https://drive.google.com/thumbnail?id=1Epqr7B5GYDbPvI5KdKkzyIUhLlTwygfG&sz=w640" alt="Commercial" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-c">AI Commercials</div><div class="vtitle">Luxury Brand Cinematic</div></div>
+    </div>
+
+    <!-- VID 10 — UGC -->
+    <div class="vcard reveal" data-cat="u" onclick="playDrive('122JxaGNA3YJkQQxQraZbQLdK6YYEw32m','Authentic Review Format')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#18100a,#0e0805)">👤</div>
+        <img src="https://drive.google.com/thumbnail?id=122JxaGNA3YJkQQxQraZbQLdK6YYEw32m&sz=w640" alt="UGC" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-u">UGC Ads</div><div class="vtitle">Authentic Review Format</div></div>
+    </div>
+
+    <!-- VID 11 — Product -->
+    <div class="vcard reveal d1" data-cat="p" onclick="playDrive('18_KIUaY6l-H58p96BhoBTvKeZTFT6KFh','TikTok Performance Creative')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#160a18,#0b0510)">🎭</div>
+        <img src="https://drive.google.com/thumbnail?id=18_KIUaY6l-H58p96BhoBTvKeZTFT6KFh&sz=w640" alt="Product" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-p">Product Ads</div><div class="vtitle">TikTok Performance Creative</div></div>
+    </div>
+
+    <!-- VID 12 — Ecommerce -->
+    <div class="vcard reveal d2" data-cat="e" onclick="playDrive('1yVdmJS6mfDxrJTlqpAaLEINCMhQzhVfN','Direct Response Ad')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#031810,#020d08)">💎</div>
+        <img src="https://drive.google.com/thumbnail?id=1yVdmJS6mfDxrJTlqpAaLEINCMhQzhVfN&sz=w640" alt="Ecommerce" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-e">Ecommerce</div><div class="vtitle">Direct Response Ad</div></div>
+    </div>
+
+    <!-- VID 13 — Music -->
+    <div class="vcard reveal" data-cat="m" onclick="playDrive('1A5pwcqtn_aOrZVqbj-wSDEjyZluRLxYD','Afrobeats Visual Story')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#0c0a1e,#060510)">🎶</div>
+        <img src="https://drive.google.com/thumbnail?id=1A5pwcqtn_aOrZVqbj-wSDEjyZluRLxYD&sz=w640" alt="Music" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-m">Music Videos</div><div class="vtitle">Afrobeats Visual Story</div></div>
+    </div>
+
+    <!-- VID 14 — Brand -->
+    <div class="vcard reveal d1" data-cat="b" onclick="playDrive('1OEgq7Eq66LFfxMQj3UMmwMfNjCmSg992','AI Startup Reveal Film')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#180e04,#0e0802)">🔥</div>
+        <img src="https://drive.google.com/thumbnail?id=1OEgq7Eq66LFfxMQj3UMmwMfNjCmSg992&sz=w640" alt="Brand" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-b">Brand Launches</div><div class="vtitle">AI Startup Reveal Film</div></div>
+    </div>
+
+    <!-- VID 15 — Commercial -->
+    <div class="vcard reveal d2" data-cat="c" onclick="playDrive('1MgaGu3b2Ab2giRQo-NRIqxd_QDo9u55u','Emotional Story Campaign')">
+      <div class="vthumb">
+        <div class="vthumb-fallback" style="background:linear-gradient(135deg,#100a20,#08051a)">✨</div>
+        <img src="https://drive.google.com/thumbnail?id=1MgaGu3b2Ab2giRQo-NRIqxd_QDo9u55u&sz=w640" alt="Commercial" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="voverlay"><div class="vplay">▶</div></div>
+      </div>
+      <div class="vmeta"><div class="vcat cat-c">AI Commercials</div><div class="vtitle">Emotional Story Campaign</div></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div style="text-align:center" class="reveal">
+    <div class="slbl" style="justify-content:center">Client Reviews</div>
+    <div class="stitle">What Clients Say</div>
+  </div>
+  <div class="tgrid">
+    <div class="tcard reveal"><div class="tstars">★★★★★</div><div class="tq">"</div><p class="ttxt">The SaaS explainer Deepflourish AI produced felt like a Hollywood production. Our demo-to-trial conversion jumped 41% in the first month alone.</p><div class="tauthor"><div class="tavatar">JM</div><div><div class="tname">James Mitchell</div><div class="trole">CEO, FlowStack SaaS</div></div></div></div>
+    <div class="tcard reveal d1"><div class="tstars">★★★★★</div><div class="tq">"</div><p class="ttxt">We launched three TikTok creatives from Deepflourish and one hit 800K views organically. The AI visuals and storytelling are on another level entirely.</p><div class="tauthor"><div class="tavatar">SR</div><div><div class="tname">Sofia Reyes</div><div class="trole">Marketing Director, Lumix Ecom</div></div></div></div>
+    <div class="tcard reveal"><div class="tstars">★★★★★</div><div class="tq">"</div><p class="ttxt">Our brand launch video was cinematic, emotional, and on-brand. Investors at our pitch literally asked who made it. Deepflourish AI is the real deal.</p><div class="tauthor"><div class="tavatar">DK</div><div><div class="tname">David Kofi</div><div class="trole">Founder, NovaTech Startup</div></div></div></div>
+    <div class="tcard reveal d1"><div class="tstars">★★★★★</div><div class="tq">"</div><p class="ttxt">5 days for a fully cinematic AI music video that my fans went crazy for. I couldn't believe the turnaround time and quality. Absolutely premium work.</p><div class="tauthor"><div class="tavatar">AA</div><div><div class="tname">Amara Adesanya</div><div class="trole">Recording Artist & Creator</div></div></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <div class="slbl">Expertise</div>
+    <div class="stitle">Our Skill Set</div>
+    <p class="ssub">Eight core disciplines — all operating at elite level.</p>
+  </div>
+  <div class="skgrid">
+    <div class="ski reveal"><div class="sk-head"><span class="sk-name">Prompt Engineering</span><span class="sk-pct">97%</span></div><div class="sk-track"><div class="sk-fill" data-w="97"></div></div></div>
+    <div class="ski reveal d1"><div class="sk-head"><span class="sk-name">AI Cinematic Production</span><span class="sk-pct">95%</span></div><div class="sk-track"><div class="sk-fill" data-w="95"></div></div></div>
+    <div class="ski reveal"><div class="sk-head"><span class="sk-name">AI Storyboarding</span><span class="sk-pct">92%</span></div><div class="sk-track"><div class="sk-fill" data-w="92"></div></div></div>
+    <div class="ski reveal d1"><div class="sk-head"><span class="sk-name">Commercial Direction</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill" data-w="90"></div></div></div>
+    <div class="ski reveal"><div class="sk-head"><span class="sk-name">Video Editing & Post</span><span class="sk-pct">94%</span></div><div class="sk-track"><div class="sk-fill" data-w="94"></div></div></div>
+    <div class="ski reveal d1"><div class="sk-head"><span class="sk-name">Creative Ad Strategy</span><span class="sk-pct">88%</span></div><div class="sk-track"><div class="sk-fill" data-w="88"></div></div></div>
+    <div class="ski reveal"><div class="sk-head"><span class="sk-name">Brand Storytelling</span><span class="sk-pct">93%</span></div><div class="sk-track"><div class="sk-fill" data-w="93"></div></div></div>
+    <div class="ski reveal d1"><div class="sk-head"><span class="sk-name">Social Media Advertising</span><span class="sk-pct">91%</span></div><div class="sk-track"><div class="sk-fill" data-w="91"></div></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section id="process">
+  <div style="text-align:center;margin-bottom:.5rem" class="reveal">
+    <div class="slbl" style="justify-content:center">How We Work</div>
+    <div class="stitle">The Creative Process</div>
+    <p class="ssub" style="margin:0 auto;text-align:center">Seven precision steps from brief to final delivery.</p>
+  </div>
+  <div class="proc-grid">
+    <div class="pstep reveal"><div class="pnum">01</div><div class="pico">🔍</div><div class="pttl">Research</div><p class="pdsc">Deep brand, audience & competitor analysis</p></div>
+    <div class="pstep reveal d1"><div class="pnum">02</div><div class="pico">📝</div><div class="pttl">Script Writing</div><p class="pdsc">Narrative structure & persuasive copy</p></div>
+    <div class="pstep reveal d2"><div class="pnum">03</div><div class="pico">🧠</div><div class="pttl">Prompt Engineering</div><p class="pdsc">Precision AI prompts for visual consistency</p></div>
+    <div class="pstep reveal d3"><div class="pnum">04</div><div class="pico">🤖</div><div class="pttl">AI Generation</div><p class="pdsc">Multi-model visual & video generation</p></div>
+    <div class="pstep reveal d1"><div class="pnum">05</div><div class="pico">✂️</div><div class="pttl">Editing</div><p class="pdsc">Cinematic cut, colour grade & motion</p></div>
+    <div class="pstep reveal d2"><div class="pnum">06</div><div class="pico">🎵</div><div class="pttl">Sound Design</div><p class="pdsc">Voiceover, music & audio mastering</p></div>
+    <div class="pstep reveal d3"><div class="pnum">07</div><div class="pico">🚀</div><div class="pttl">Final Delivery</div><p class="pdsc">All formats exported, ready to launch</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="cinner reveal">
+    <div class="slbl" style="justify-content:center">Get In Touch</div>
+    <div class="cttl">Ready to Create<br><span>Something Epic?</span></div>
+    <p class="csub">Let's build your next AI video campaign together. Reach out on Telegram or WhatsApp — we respond within 24 hours.</p>
+    <div class="cbtns">
+      <a href="https://t.me/DeepflourishAI" target="_blank" class="cbtn cbtn-tg"><span class="cico">✈</span>Message on Telegram</a>
+      <a href="https://wa.me/12566881194" target="_blank" class="cbtn cbtn-wa"><span class="cico">💬</span>WhatsApp Us Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">Deepflourish AI</div>
+  <div class="fcopy">© 2026 Deepflourish AI · All Rights Reserved</div>
+  <div class="flinks">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="https://wa.me/12566881194" target="_blank">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+/* PARTICLES */
+(function(){
+  const c=document.getElementById('particles');
+  const x=c.getContext('2d');
+  let W,H,P=[];
+  function rs(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  rs();window.addEventListener('resize',rs);
+  function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*.9+.2;this.dx=(Math.random()-.5)*.28;this.dy=(Math.random()-.5)*.28;this.a=Math.random()*.45+.08;}
+  for(let i=0;i<100;i++)P.push(new Pt());
+  function draw(){
+    x.clearRect(0,0,W,H);
+    P.forEach(p=>{
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle=`rgba(0,229,255,${p.a})`;x.fill();
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0||p.x>W)p.dx*=-1;if(p.y<0||p.y>H)p.dy*=-1;
+    });
+    P.forEach((p,i)=>{
+      for(let j=i+1;j<P.length;j++){
+        const q=P[j],d=Math.hypot(p.x-q.x,p.y-q.y);
+        if(d<110){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.strokeStyle=`rgba(0,229,255,${.055*(1-d/110)})`;x.lineWidth=.4;x.stroke();}
+      }
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* NAV SCROLL */
+window.addEventListener('scroll',()=>{
+  document.getElementById('topnav').style.background=
+    window.scrollY>60?'rgba(2,4,9,0.97)':'rgba(2,4,9,0.75)';
+});
+
+/* SCROLL REVEAL + SKILL BARS */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      e.target.querySelectorAll('.sk-fill').forEach(b=>{b.style.width=b.dataset.w+'%';});
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* Skill bars on section enter */
+const skObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.sk-fill').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.w+'%';},150);});skObs.disconnect();}});
+},{threshold:.15});
+const skSec=document.getElementById('skills');
+if(skSec)skObs.observe(skSec);
+
+/* FILTER */
+document.querySelectorAll('.fb').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat=btn.dataset.cat;
+    document.querySelectorAll('.vcard').forEach(c=>{
+      c.classList.toggle('hidden',cat!=='all'&&c.dataset.cat!==cat);
+    });
+  });
+});
+
+/* DRIVE VIDEO MODAL */
+function playDrive(id,title){
+  const modal=document.getElementById('modal');
+  document.getElementById('modalFrame').innerHTML=
+    `<iframe src="https://drive.google.com/file/d/${id}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+  document.getElementById('modalLbl').textContent=title;
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('modalFrame').innerHTML='';
+  document.body.style.overflow='';
+}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
